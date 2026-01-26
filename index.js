@@ -6,7 +6,8 @@ const URL = 'https://www3.gobiernodecanarias.org/sanidad/scs/contenidoGenerico.j
 const lastTextFile = './lastUpdate.txt';
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+const TELEGRAM_CHAT_ID_1 = process.env.TELEGRAM_CHAT_ID_1;
+const TELEGRAM_CHAT_ID_2 = process.env.TELEGRAM_CHAT_ID_2;
 
 // Leer último contenido guardado
 const readLastText = async () => {
@@ -23,7 +24,7 @@ const saveLastText = async (text) => {
 };
 
 // Enviar notificación por Telegram
-const sendTelegramNotification = async (message) => {
+const sendTelegramNotification = async (message, TELEGRAM_CHAT_ID) => {
   const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
   const payload = {
     chat_id: TELEGRAM_CHAT_ID,
@@ -74,7 +75,8 @@ const checkPage = async () => {
 
     if (currentText !== lastText) {
       await saveLastText(currentText);
-      await sendTelegramNotification(`📄 ¡Nuevo contenido detectado!\n\n${currentText}\n\n🔗 ${URL}`);
+      await sendTelegramNotification(`📄 ¡Nuevo contenido detectado!\n\n${currentText}\n\n🔗 ${URL}`, TELEGRAM_CHAT_ID_1);
+      // await sendTelegramNotification(`📄 ¡Nuevo contenido detectado!\n\n${currentText}\n\n🔗 ${URL}`, TELEGRAM_CHAT_ID_2);
     } else {
       console.log('No changes detected.');
     }
