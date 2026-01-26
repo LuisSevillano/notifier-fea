@@ -75,8 +75,7 @@ const checkPage = async () => {
 
     if (currentText !== lastText) {
       await saveLastText(currentText);
-      await sendTelegramNotification(`FEA Microbiología y Parasitología
- | Se ha detectado una nueva entrada\n ${URL}`, TELEGRAM_CHAT_ID_1);
+      await sendTelegramNotification(`🧫🔬*FEA Microbiología y Parasitología*🧬🧪\nSe ha detectado una nueva entrada\n ${URL}`, TELEGRAM_CHAT_ID_1);
     } else {
       console.log('No changes detected.');
     }
