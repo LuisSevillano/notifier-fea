@@ -87,6 +87,7 @@ const checkPage = async () => {
     if (currentText !== lastText) {
       await saveLastText(currentText);
       await sendTelegramNotification(currentText, TELEGRAM_CHAT_ID_1);
+      await sendTelegramNotification(currentText, TELEGRAM_CHAT_ID_2);
     } else {
       console.log('No changes detected.');
     }
