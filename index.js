@@ -24,7 +24,8 @@ const saveLastText = async (text) => {
 };
 
 // Enviar notificación por Telegram
-const sendTelegramNotification = async (message, TELEGRAM_CHAT_ID) => {
+const sendTelegramNotification = async (currentText, TELEGRAM_CHAT_ID) => {
+  const message = escapeMarkdownV2(`🧫🔬*FEA Microbiología y Parasitología*🧬🧪\nSe ha detectado una nueva entrada: ${currentText}\n${URL}`)
   const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
   const payload = {
     chat_id: TELEGRAM_CHAT_ID,
@@ -52,6 +53,11 @@ const sendTelegramNotification = async (message, TELEGRAM_CHAT_ID) => {
   }
 };
 
+function escapeMarkdownV2(text) {
+  return text.replace(/[_*[\]()~`>#+=|{}.!-]/g, '\\$&');
+}
+
+
 // Extraer y vigilar contenido
 const checkPage = async () => {
   try {
@@ -76,7 +82,7 @@ const checkPage = async () => {
 
     if (currentText !== lastText) {
       await saveLastText(currentText);
-      await sendTelegramNotification(`🧫🔬*FEA Microbiología y Parasitología*🧬🧪\nSe ha detectado una nueva entrada\n ${URL}`, TELEGRAM_CHAT_ID_1);
+      await sendTelegramNotification(currentText, TELEGRAM_CHAT_ID_1);
     } else {
       console.log('No changes detected.');
     }
