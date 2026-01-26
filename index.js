@@ -25,7 +25,11 @@ const saveLastText = async (text) => {
 
 // Enviar notificación por Telegram
 const sendTelegramNotification = async (currentText, TELEGRAM_CHAT_ID) => {
-  const message = escapeMarkdownV2(`🧫🔬*FEA Microbiología y Parasitología*🧬🧪\nSe ha detectado una nueva entrada: ${currentText}\n${URL}`)
+  const message =
+  `🧫🔬*${escapeMarkdownV2('FEA Microbiología y Parasitología')}*🧬🧪\n` +
+  `${escapeMarkdownV2('Se ha detectado una nueva entrada:')} ${escapeMarkdownV2(currentText)}\n` +
+  `${escapeMarkdownV2(URL)}`;
+
   const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
   const payload = {
     chat_id: TELEGRAM_CHAT_ID,
