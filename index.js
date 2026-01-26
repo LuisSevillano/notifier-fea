@@ -29,6 +29,7 @@ const sendTelegramNotification = async (message, TELEGRAM_CHAT_ID) => {
   const payload = {
     chat_id: TELEGRAM_CHAT_ID,
     text: message,
+    parse_mode: MarkdownV2
   };
 
   try {
