@@ -70,14 +70,25 @@ const checkPage = async () => {
         'User-Agent': 'Mozilla/5.0',
       },
     });
+
+    if (response.status === 404) {
+      console.warn('Web not available (404). Skipping without failing workflow.');
+      return;
+    }
+
+    if (!response.ok) {
+      console.warn(`Web not available (${response.status}). Skipping without failing workflow.`);
+      return;
+    }
+
     const html = await response.text();
     const $ = cheerio.load(html);
 
     const currentText = $('#centercontainer > div > div:nth-child(1) > p').text().trim();
 
     if (!currentText) {
-      console.error('Could not find the target text.');
-      process.exit(1);
+      console.warn('Could not find the target text. Skipping without failing workflow.');
+      return;
     }
 
     console.log('Extracted text:', currentText);
@@ -93,8 +104,8 @@ const checkPage = async () => {
     }
 
   } catch (err) {
-    console.error('Error fetching or processing the page:', err);
-    process.exit(1);
+    console.warn('Page temporarily unavailable. Skipping without failing workflow.', err.message);
+    return;
   }
 };
 
